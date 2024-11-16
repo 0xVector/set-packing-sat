@@ -3,7 +3,8 @@ import subprocess
 from itertools import chain
 from subprocess import CompletedProcess
 
-from encoding import encode, decode, encode_exactly_t
+from encoding import encode, decode, encode_at_least_t
+from tests import random_problem
 
 # Constants
 DEFAULT_FILENAME = "encoding.cnf"
@@ -73,13 +74,18 @@ def print_report(t: int, subsets: list[set[int]], result: CompletedProcess):
 
 def run():
     # subsets = [{0, 1, 2}, {0, 2, 4}, {50}, {2, 0}, {7}, {8}, {3, 5, 1}, {7, 4,1}]
-    subsets = [{0, 1, 4}, {0, 2}, {1, 3}, {2, 5}, {1, 2, 5}]
-    t = 3
+    # subsets = [{0, 1, 4}, {0, 2}, {1, 3}, {2, 5}, {1, 2, 5}]
+    # subsets = [
+    #     {0,1,2},{0,1,3},{1,2,4},{0,1,2,3,4,5},{2},{2,3,4,5},{0,2,5},{3,6,7},{6,7},{3,5,8},{5,2,8},
+    # ]
+    subsets = random_problem(8, 28)
+    # n=8, k=28, t=6 unsat big ~30s
+
+    t = 5
     v, cnf = encode(t, subsets)
 
-    pretty_print(cnf)
+    # pretty_print(cnf)
     store_cnf(v, cnf)
-    pretty_print(encode_exactly_t(3, 5))
     result = run_sat()
     print_report(t, subsets, result)
 
