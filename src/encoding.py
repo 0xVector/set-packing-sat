@@ -9,7 +9,7 @@ def encode(t: int, subsets: list[set[int]]) -> tuple[int, frozenset[frozenset[in
     cnf = set()
     cnf.update(encode_disjoint(subsets))
     print("disjoint done")
-    cnf.update(encode_exactly_t(k, t))
+    cnf.update(encode_at_least_t(k, t))
     print("exactly t done")
     return k, frozenset(cnf)
 
@@ -25,13 +25,16 @@ def encode_disjoint(subsets: list[set[int]]) -> frozenset[frozenset[int]]:
     return frozenset(cnf)
 
 
-# Encode that exactly t variables (from k variables in total) have their value set to 1
+# Encode that at least t variables (from k variables in total) have their value set to 1
 # This method goes through all models and forbids each non-model
-def encode_exactly_t(k: int, t: int) -> frozenset[frozenset[int]]:
+def encode_at_least_t(k: int, t: int) -> frozenset[frozenset[int]]:
     cnf = set()
-    for n in range(2 ** k):
+    total = 2 ** k
+    p = total // 10
+    for n in range(total):
+        if n % p == 0: print(f"{int(round(n/total*100))}% ", end="")
         bits = f"{n:0{k}b}"
-        if bits.count("1") == t:
+        if bits.count("1") >= t:
             continue
         clause = frozenset(-var(i) if b == "1" else var(i) for i, b in enumerate(bits))
         cnf.add(clause)
