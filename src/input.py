@@ -17,7 +17,7 @@ def store_problem(problem: tuple[int, int, list[set[int]]], file_name: str):
     n, t, subsets = problem
     k = len(subsets)
     with open(file_name, "w") as file:
-        print(n, k, t, sep=" ", file=file, flush=False)
+        print(n, k, t, sep=" ", file=file, flush=True)
         for subset in subsets:
-            print(*subset, sep=" ", file=file, flush=False)
+            print(*subset, sep=" ", file=file, flush=True)
 

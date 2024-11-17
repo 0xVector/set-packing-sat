@@ -5,10 +5,12 @@ from subprocess import CompletedProcess
 
 from input import load_problem, store_problem
 from encoding import encode, decode
+from src.tests import random_problem_sparse
 from tests import random_problem
 
 # Constants
 DEFAULT_CNF_FILENAME = "encodings/encoding.cnf"
+DEFAULT_INSTANCE_FILENAME = "instances/problem.txt"
 DEFAULT_SOLVER = "glucose-syrup"
 SOLVER_OPTIONS = "-maxnbthreads=8 -maxmemory=200000 -verb=2"
 
@@ -68,8 +70,10 @@ def print_report(t: int, subsets: list[set[int]], result: [int, list[str]]):
         print("BIG ERROR")
 
 
-def solve_print_report(problem: tuple[int, int, list[set[int]]], problem_file_name="input/problem.txt"):
-    store_problem(problem, problem_file_name)
+def solve_print_report(problem: tuple[int, int, list[set[int]]],
+                       problem_file_name: str | None = DEFAULT_INSTANCE_FILENAME):
+    if problem_file_name is not None:
+        store_problem(problem, problem_file_name)
     n, t, subsets = problem
     v, cnf = encode(t, subsets)
     store_cnf(v, cnf)
@@ -84,8 +88,11 @@ def run():
     # n=8, k=28, t=6 unsat big ~30s
 
     # n, k, t = 30, 28, 6 # big cnf file, long encoding, long sat
-    n, k, t = 10, 20, 7 # mid cnf file, very quick encoding, mid sat
-    problem = (n, t, random_problem(n, k))
+    # n, k, t = 10, 20, 7  # mid cnf file, very quick encoding, mid sat
+    n, k, t = 15, 28, 6
+    # problem = (n, t, random_problem(n, k))
+    problem = (n, t, random_problem_sparse(n, k))
+    # problem = load_problem("instances/problem-sat-14s.txt")
     solve_print_report(problem)
 
 
