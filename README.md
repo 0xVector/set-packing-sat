@@ -85,6 +85,10 @@ In `instances/`
 
 ### Human-sized
 
+- [problem-sat-small.in](./instances/problem-sat-small.in)
+
+- [problem-unsat-small.in](./instances/problem-unsat-small.in)
+
 ### Big
 
 #### Satisfiable

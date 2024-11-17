@@ -1,16 +1,12 @@
-from itertools import combinations, product
-
-FALSE_CNF = frozenset((frozenset([1]), frozenset([-1])))  # 2 clauses with just opposite literals - false in CNF
-
-
 # Returns the encoding as a pair (variables, CNF)
 def encode(t: int, subsets: list[set[int]]) -> tuple[int, frozenset[frozenset[int]]]:
     k = len(subsets)
     cnf = set()
     cnf.update(encode_disjoint(subsets))
-    print("disjoint done")
+    print("Disjoint sets done.")
+    print("Cardinality [ ", end="")
     cnf.update(encode_at_least_t(k, t))
-    print("exactly t done")
+    print("100% ] done.")
     return k, frozenset(cnf)
 
 
@@ -30,22 +26,14 @@ def encode_disjoint(subsets: list[set[int]]) -> frozenset[frozenset[int]]:
 def encode_at_least_t(k: int, t: int) -> frozenset[frozenset[int]]:
     cnf = set()
     total = 2 ** k
-    p = total // 10
+    p = total // 10 or 10
     for n in range(total):
-        if n % p == 0: print(f"{int(round(n/total*100))}% ", end="")
+        if n % p == 0: print(f"{int(round(n / total * 100))}% ", end="")
         bits = f"{n:0{k}b}"
         if bits.count("1") >= t:
             continue
         clause = frozenset(-var(i) if b == "1" else var(i) for i, b in enumerate(bits))
         cnf.add(clause)
-
-    return frozenset(cnf)
-
-
-def to_cnf(dnf: frozenset[frozenset[int]]) -> frozenset[frozenset[int]]:
-    cnf = set()
-    for prod in product(*dnf):
-        cnf.add(frozenset(prod))
     return frozenset(cnf)
 
 

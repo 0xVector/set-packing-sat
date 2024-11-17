@@ -1,3 +1,5 @@
+from argparse import ArgumentParser
+
 # Returns the input in a form of a triple (n, t, S), where n is the size of the universe U, t is the desired
 # packing size and S is a set of the possible subsets. Elements of U are represented by integers 0...(n-1)
 #
@@ -20,4 +22,44 @@ def store_problem(problem: tuple[int, int, list[set[int]]], file_name: str):
         print(n, k, t, sep=" ", file=file, flush=True)
         for subset in subsets:
             print(*subset, sep=" ", file=file, flush=True)
+
+
+def configure_input_parser(parser: ArgumentParser):
+    parser.add_argument(
+        "-i",
+        "--input",
+        default="instances/problem.in",
+        type=str,
+        help=(
+            "The instance file."
+        ),
+    )
+    parser.add_argument(
+        "-o",
+        "--output",
+        default="encodings/encoding.cnf",
+        type=str,
+        help=(
+            "Output file for the DIMACS format (i.e. the CNF formula)."
+        ),
+    )
+    parser.add_argument(
+        "-s",
+        "--solver",
+        default="glucose-syrup",
+        type=str,
+        help=(
+            "The SAT solver to be used."
+        ),
+    )
+    parser.add_argument(
+        "-v",
+        "--verb",
+        default=1,
+        type=int,
+        choices=range(0, 2),
+        help=(
+            "Verbosity of the SAT solver used."
+        ),
+    )
 
