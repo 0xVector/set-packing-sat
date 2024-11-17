@@ -81,4 +81,25 @@ of this project.
 
 ## Test instances
 
+In `instances/`
+
+### Human-sized
+
+### Big
+
+#### Satisfiable
+
+- [problem-sat-68k.in](./instances/problem-sat-68k.in): 68,553 clauses, ENCODE?, takes ~15s to solve
+4.98 MB encoded file size
+
+- [problem-sat-122k.in](./instances/problem-sat-122k.in): 68,553 clauses, ENCODE?, takes ~55s to solve
+10.01 MB encoded file size
+
+- [problem-sat-110k-7.in](./instances/problem-sat-110k-7.in): ??? clauses, ENCODE?, takes ~???s to solve
+???? MB encoded file size, finds solution of size 7
+
+#### Unsatisfiable
+
+- [problem-unsat-280k.in](./instances/problem-unsat-280k.in): 280,687 clauses, quick to encode, takes ~160s to run   
+18.36 MB encoded file size
 ## Experiments
